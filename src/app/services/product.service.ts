@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { Car } from '../models/car';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CarService {
+export class ProductService {
 
   url = 'http://localhost:8071/products';
-  urlAddToCart = 'http://localhost:8071/addToCart';
+  urlAddToCart = 'http://localhost:8071/product-rabbitmq/producer';
 
   // injetando o HttpClient
   constructor(private httpClient: HttpClient) { }
@@ -18,50 +18,55 @@ export class CarService {
   // Headers
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  }
+  };
 
-  // Obtem todos os carros
-  getCars(): Observable<Car[]> {
-    return this.httpClient.get<Car[]>(this.url)
+  // Obtem todos os produtos
+  getProducts(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(this.url)
       .pipe(
-        retry(2),
-        catchError(this.handleError))
-  }
-
-  // Obtem um carro pelo id
-  getCarById(id: number): Observable<Car> {
-    return this.httpClient.get<Car>(this.url + '/' + id)
-      .pipe(
-        retry(2),
         catchError(this.handleError)
-      )
+      );
   }
 
-  // salva um carro
-  saveCar(car: Car): Observable<Car> {
-    return this.httpClient.post<Car>(this.url, JSON.stringify(car), this.httpOptions)
+  // Obtem um produto pelo id
+  getProductById(id: number): Observable<Product> {
+    return this.httpClient.get<Product>(this.url + '/' + id)
       .pipe(
-        retry(2),
         catchError(this.handleError)
-      )
+      );
   }
 
-  // utualiza um carro
-  updateCar(car: Car): Observable<Car> {
-    return this.httpClient.put<Car>(this.url + '/' + car.id, JSON.stringify(car), this.httpOptions)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      )
+  // adiciona ao carrinho
+
+  addToCart(product: Product) {
+    return this.httpClient.post(this.urlAddToCart, JSON.stringify(product), this.httpOptions
+    ).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  // deleta um carro
-  deleteCar(car: Car) {
-    return this.httpClient.delete<Car>(this.url + '/' + car.id, this.httpOptions)
+  // salva um produto
+  saveProduct(product: Product): Observable<Product> {
+    return this.httpClient.post<Product>(this.url, JSON.stringify(product), this.httpOptions)
       .pipe(
-        retry(1),
         catchError(this.handleError)
-      )
+      );
+  }
+
+  // atualiza um produto
+  updateProduct(product: Product): Observable<Product> {
+    return this.httpClient.put<Product>(this.url + '/' + product.id, JSON.stringify(product), this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // deleta um produto
+  deleteProduct(product: Product) {
+    return this.httpClient.delete<Product>(this.url + '/' + product.id, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   // Manipulação de erros
@@ -76,6 +81,6 @@ export class CarService {
     }
     console.log(errorMessage);
     return throwError(errorMessage);
-  };
+  }
 
 }

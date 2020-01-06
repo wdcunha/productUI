@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Car} from './models/car';
-import {CarService} from './services/car.service';
+import {Product} from './models/product';
+import {ProductService} from './services/product.service';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -11,51 +11,56 @@ import {NgForm} from '@angular/forms';
 
 export class AppComponent implements OnInit {
 
-  car = {} as Car;
-  cars: Car[];
+  product = {} as Product;
+  products: Product[];
 
-  constructor(private carService: CarService) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.getCars();
+    this.getProducts();
   }
 
-  // define se um carro será criado ou atualizado
-  saveCar(form: NgForm) {
-    if (this.car.id !== undefined) {
-      this.carService.updateCar(this.car).subscribe(() => {
+  // define se um produto será criado ou atualizado
+  saveProduct(form: NgForm) {
+    if (this.product.id !== undefined) {
+      this.productService.updateProduct(this.product).subscribe(() => {
         this.cleanForm(form);
       });
     } else {
-      this.carService.saveCar(this.car).subscribe(() => {
+      this.productService.saveProduct(this.product).subscribe(() => {
         this.cleanForm(form);
       });
     }
   }
 
-  // Chama o serviço para obter todos os carros
-  getCars() {
-    this.carService.getCars().subscribe((cars: Car[]) => {
-      this.cars = cars;
+  // copia o produto para ser enviado ao carrinho.
+  addToCart(product: Product) {
+    this.productService.addToCart(product).subscribe(x => console.log(x));
+  }
+
+  // Chama o serviço para obter todos os produto
+  getProducts() {
+    this.productService.getProducts().subscribe((products: Product[]) => {
+      this.products = products;
     });
   }
 
-  // deleta um carro
-  deleteCar(car: Car) {
-    this.carService.deleteCar(car).subscribe(() => {
-      this.getCars();
+  // deleta um produto
+  deleteProduct(product: Product) {
+    this.productService.deleteProduct(product).subscribe(() => {
+      this.getProducts();
     });
   }
 
-  // copia o carro para ser editado.
-  editCar(car: Car) {
-    this.car = { ...car };
+  // copia o produto para ser editado
+  editProduct(product: Product) {
+    this.product = { ...product };
   }
 
   // limpa o formulario
   cleanForm(form: NgForm) {
-    this.getCars();
+    this.getProducts();
     form.resetForm();
-    this.car = {} as Car;
+    this.product = {} as Product;
   }
 }
