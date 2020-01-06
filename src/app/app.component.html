@@ -1,6 +1,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Gerenciamento de produtos</li>
+    <li class="breadcrumb-item active" aria-current="page">Lista de produtos (v1)</li>
   </ol>
 </nav>
 <div class="container">
@@ -29,37 +29,6 @@
         </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="card add-product">
-    <h5 class="card-header">Adicionar/Atualizar produto</h5>
-    <div class="card-body">
-      <form id="add-form" (ngSubmit)="f.form.valid && saveProduct(f)" #f="ngForm" novalidate>
-        <div class="form-group">
-          <label for="model">Modelo</label>
-          <input type="text" [(ngModel)]="product.productName" id="model" name="model" #model="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && model.invalid }" placeholder="Digite o modelo">
-          <div *ngIf="f.submitted && model.invalid" class="invalid-feedback">
-            <div *ngIf="model.errors.required">Modelo é obrigatório</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="color">Cor</label>
-          <input type="text" [(ngModel)]="product.pictureUrl" id="color" name="color" #color="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && color.invalid }" placeholder="Digite a cor">
-          <div *ngIf="f.submitted && color.invalid" class="invalid-feedback">
-            <div *ngIf="color.errors.required">Cor é obrigatória</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="price">Preço</label>
-          <input type="number" [(ngModel)]="product.price" id="price" name="price" #price="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && price.invalid }" placeholder="Digite o preço">
-          <div *ngIf="f.submitted && price.invalid" class="invalid-feedback">
-            <div *ngIf="price.errors.required">Preço é obrigatório</div>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-add-product">Salvar</button>
-        <button type="reset" class="btn btn-secondary btn-add-product" (click)="cleanForm(f)">Cancelar</button>
-      </form>
     </div>
   </div>
 </div>
