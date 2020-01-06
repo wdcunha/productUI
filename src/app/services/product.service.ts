@@ -10,6 +10,7 @@ import { Car } from '../models/car';
 export class CarService {
 
   url = 'http://localhost:8071/products';
+  urlAddToCart = 'http://localhost:8071/addToCart';
 
   // injetando o HttpClient
   constructor(private httpClient: HttpClient) { }
