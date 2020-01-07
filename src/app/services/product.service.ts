@@ -38,7 +38,7 @@ export class ProductService {
 
   // adiciona ao carrinho
 
-  addToCart(product: Product) {
+  addToCart(product: Product[]) {
     return this.httpClient.post(this.urlAddToCart, JSON.stringify(product), this.httpOptions
     ).pipe(
       catchError(this.handleError)

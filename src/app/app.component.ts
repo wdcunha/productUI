@@ -11,10 +11,12 @@ import {NgForm} from '@angular/forms';
 
 export class AppComponent implements OnInit {
 
-  product = {} as Product;
-  products: Product[];
+  product: Product = {} as Product;
+  products: Product[] = [];
+  selectedProducts: Product[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -34,8 +36,13 @@ export class AppComponent implements OnInit {
   }
 
   // copia o produto para ser enviado ao carrinho.
+  saveCart() {
+    this.productService.addToCart(this.selectedProducts).subscribe(x => console.log(x));
+  }
+
+  // copia o produto para ser enviado ao carrinho.
   addToCart(product: Product) {
-    this.productService.addToCart(product).subscribe(x => console.log(x));
+    this.selectedProducts.push(product);
   }
 
   // Chama o serviço para obter todos os produto

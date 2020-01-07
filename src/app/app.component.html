@@ -1,11 +1,14 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Lista de produtos (v1)</li>
+    <li class="breadcrumb-item active" aria-current="page">Product Service (v1)</li>
   </ol>
 </nav>
 <div class="container">
   <div class="card list-product">
-    <h5 class="card-header">Lista de Produtos</h5>
+    <div>
+      <h5 class="card-header">Lista de Produtos</h5>
+      <button type="button" class="btn btn-primary" (click)="saveCart()">Checkout Cart</button>
+    </div>
     <div class="card-body">
       <table class="table">
         <thead>
